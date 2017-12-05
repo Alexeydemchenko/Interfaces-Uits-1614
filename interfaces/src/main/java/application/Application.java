@@ -29,27 +29,35 @@ public class Application {
 	}
 		
 	public static void menu() {
-		System.out.println("MENU:");
-		System.out.println("1 - Basket");
-		System.out.println("2 - Extract all");
-		System.out.println("3 - fp");
-		int choice = sc.nextInt();
+		boolean flag = true;
 		Basket basket = new Basket();
 		FoodProcessor fp = new FoodProcessor();
-		switch(choice) {
-			case 1:{
-				basket = createBasket();
-			}
-			case 2:{
-				System.out.println(fp.peellItems(basket.list));
-			}break;
-			case 3:{
-				
-				
-			}
+		Plant[] plant = new Plant[0];
+		while(flag) {
+			System.out.println("MENU:");
+			System.out.println("1 - Создать корзину");
+			System.out.println("2 - Достать все продукты");
+			System.out.println("3 - Почистить продукты");
+			int choice = sc.nextInt();
+				switch(choice) {
+					case 1:{
+						basket = createBasket();
+						plant = new Plant[basket.list.size()];
+					}break;
+					case 2:{
+						plant = basket.extractAll(basket.list);
+					}break;
+					case 3:{
+						System.out.println(fp.peellItems(plant));
+					}break;
+				}
 		}
 	}
 	
+//	public static Plant[] fillArr() {
+//		
+//	}
+//	
 	public static Basket createBasket() {
 		Basket basket = new Basket();
 		int pick;
@@ -82,14 +90,13 @@ public class Application {
 		return basket;
 	}
 	
-	public static void createFoodProcessor(Basket basket) {
-		FoodProcessor fp = new FoodProcessor();
-		for(Plant pl : basket.list) {
-			System.out.println(pl);
-			
-		}	
-		System.out.println(fp.peellItems(basket.list));
-	}
+//	public static void createFoodProcessor(Basket basket) {
+//		FoodProcessor fp = new FoodProcessor();
+//		for(Plant pl : basket.list) {
+//			System.out.println(pl);
+//			
+//		}	
+//	}
 	
 	public static Plant createFruit() {
 		Plant fruit;

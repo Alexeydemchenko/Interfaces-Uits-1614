@@ -12,17 +12,27 @@ public class FoodProcessor implements Cutter, Peeller, Slicer {
            return result;
    }
 	
-	public double peellItems(List<Plant> list) {
+//	public double peellItems(List<Plant> list) {
+//		double weight = 0.0;
+//		double result = 0.0;
+//		for(Plant plant : list) {
+//			if(!plant.getClearCondition()) {
+//				new IllegalArgumentException();
+//			}
+//			weight = weight + plant.getWeight();
+//			result = weight - (0.2 * weight);
+//			plant.setClearCondition(true);
+//		}
+//		return result;
+//	}
+	
+	public double peellItems(Plant[] plant) {
 		double weight = 0.0;
-		double result = 0.0;
-		for(Plant plant : list) {
-			if(!plant.getClearCondition()) {
-				new IllegalArgumentException();
-			}
-			weight = weight + plant.getWeight();
-			result = weight - (0.2 * weight);
-			plant.setClearCondition(true);
+		double result;
+		for(int i = 0; i < plant.length; i++) {
+			weight = weight + plant[i].getWeight();
 		}
+		result = weight - (weight * 0.2);
 		return result;
 	}
 	

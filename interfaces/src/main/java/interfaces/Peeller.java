@@ -5,5 +5,6 @@ import Classes.Plant;
 
 public interface Peeller {
 	double peellItem(Plant plant);
-	double peellItems(List<Plant> list);
+//	double peellItems(List<Plant> list);
+	double peellItems(Plant[] plant);
 }

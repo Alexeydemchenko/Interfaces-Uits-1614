@@ -65,10 +65,11 @@ public class Basket {
 	
 	public Plant[] extractAll(List<Plant> list) {
 		if(list.size() == 0) {
-			System.out.println("EMPTY BASKET");
+			System.out.println("ВАША КОРЗИНА ПУСТА!");
 			return null;
 		}
 		Plant[] plant = list.toArray(new Plant[list.size()]);
+		list.removeAll(list);
 		System.out.println(Arrays.toString(plant));
 		return plant;
 	}
