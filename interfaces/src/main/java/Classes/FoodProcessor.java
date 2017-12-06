@@ -6,72 +6,47 @@ import java.util.ArrayList;
 
 public class FoodProcessor implements Cutter, Peeller, Slicer {
 	
+	private static double productsWeight;
 	
 	public double peellItem(Plant plant) {
         double result = plant.getWeight() - (0.2 * plant.getWeight());
            return result;
    }
-	
-//	public double peellItems(List<Plant> list) {
-//		double weight = 0.0;
-//		double result = 0.0;
-//		for(Plant plant : list) {
-//			if(!plant.getClearCondition()) {
-//				new IllegalArgumentException();
-//			}
-//			weight = weight + plant.getWeight();
-//			result = weight - (0.2 * weight);
-//			plant.setClearCondition(true);
-//		}
-//		return result;
-//	}
-	
+
 	public double peellItems(Plant[] plant) {
-		double weight = 0.0;
-		double result;
 		for(int i = 0; i < plant.length; i++) {
-			weight = weight + plant[i].getWeight();
+			productsWeight = productsWeight + plant[i].getWeight();
 		}
-		result = weight - (weight * 0.2);
-		return result;
+		productsWeight = productsWeight - (productsWeight * 0.2);
+		return productsWeight;
 	}
 	
 	public double cutItem(Plant plant) {
         double result = plant.getWeight() - (0.1 * plant.getWeight());
            return result;
    }
-	
-	public double cutItems(List<Plant> list) {
-		double weight = 0.0;
-		double result = 0.0;
-		for(Plant plant : list) {
-			if(!plant.getClearCondition()) {
-				new IllegalArgumentException();
-			}
-			weight = weight + plant.getWeight();
-			result = weight - (0.1 * weight);
-			plant.setClearCondition(true);
-		}
-		return result;
-	}
 
+	public double cutItems(Plant[] plant) {
+		productsWeight = productsWeight - (productsWeight * 0.1);
+		return productsWeight;
+	}
+	
 	public double sliceItem(Plant plant) {
-        double result = plant.getWeight() - (0.2 * plant.getWeight());
+        double result = plant.getWeight() - (0.1 * plant.getWeight());
            return result;
    }
+
+	public double sliceItems(Plant[] plant) {
+		productsWeight = productsWeight - (productsWeight * 0.1);
+		return productsWeight;
+	}
 	
-	public double sliceItems(List<Plant> list) {
-		double weight = 0.0;
-		double result = 0.0;
-		for(Plant plant : list) {
-			if(!plant.getClearCondition()) {
-				new IllegalArgumentException();
-			}
-			weight = weight + plant.getWeight();
-			result = weight - (0.2 * weight);
-			plant.setClearCondition(true);
-		}
-		return result;
+	public double getProductsWeight() {
+		return productsWeight;
+	}
+	
+	public void setProductsWeight(double productsWeight) {
+		this.productsWeight = productsWeight;
 	}
 	
 }
