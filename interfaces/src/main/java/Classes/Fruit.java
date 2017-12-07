@@ -4,7 +4,7 @@ import interfaces.Peellable;
 
 public abstract class Fruit extends Plant implements Peellable {
 	
-	public static String type = "fruit";
+	private static String type = "fruit";
 	
 	public Fruit() {
 		

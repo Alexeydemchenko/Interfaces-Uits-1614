@@ -37,7 +37,7 @@ public class Application {
 		while(flag) {
 			menuPanel();
 			int choice = sc.nextInt();
-			if(choice >= 1 && choice <= 8) {
+			if(choice >= 1 && choice <= 7) {
 				switch(choice) {
 				case 1:{
 					basket = createBasket();
@@ -60,15 +60,9 @@ public class Application {
 					System.out.println("Вес Вашей корзины составляет: " + basketWeight);
 				}break;
 				case 7:{
-					
-				}
-//				case 6:{
-//					System.out.println("Goodbye!!!");
-//					flag = false;
-//				}break;
-				default:{
-					System.out.println("Неправильное комманда меню!");
-				}
+					System.out.println("Goodbye!!!");
+					flag = false;
+				}break;
 			}
 		}else {
 			System.out.println("Введены неправильные данные!");
@@ -84,7 +78,7 @@ public class Application {
 		System.out.println("4 - Нарезать продукты");
 		System.out.println("5 - Нашинковать продукты");
 		System.out.println("6 - Вес корзины");
-		System.out.println("=================ДОПОЛНИТЕЛЬНЫЕ ОПЦИИ=================");
+		System.out.println("7 - Выйти из приложения");
 	}
 	
 	public static Basket createBasket() {
@@ -240,11 +234,14 @@ public class Application {
 				System.out.println("Сначала необходимо достать продукты из корзины!!!");
 			}else {
 				fp.setProductsWeight(fp.peellItems(plant));
+				for(Plant obj : plant) {
+					obj.setClearCondition(true);
+				}
 				String formattedString = String.format("%.3f", fp.getProductsWeight());
 				System.out.println("Вес Ваших продуктов после чистки: " + formattedString);
 			}
 		}catch(NullPointerException e) {
-			System.out.println("ВАША КОРЗИНА ПУСТА! ЗАПОЛНИТЕ ЕЕ ПРОДУКТАМИ!");
+			System.out.println("ДЛЯ ВЫПОЛНЕНИЯ ДАЛЬНЕЙШИХ ОПЕРАЦИЙ ДОСТАНЬТЕ ПРОДУКТЫ!");
 		}
 	}
 	
@@ -253,12 +250,20 @@ public class Application {
 			if(plant.length == 0) {
 				System.out.println("Сначала необходимо достать продукты из корзины!!!");
 			}else {
+				for(int i = 0; i < plant.length; i++) {
+					if(plant[i].getClearCondition() == false) {
+						throw new IllegalArgumentException();
+					}
+				}
 				fp.setProductsWeight(fp.cutItems(plant));
 				String formattedString = String.format("%.3f", fp.getProductsWeight());
 				System.out.println("Вес Ваших продуктов после нарезки: " + formattedString);
 			}
-		}catch(NullPointerException e) {
-			System.out.println("ВАША КОРЗИНА ПУСТА! ЗАПОЛНИТЕ ЕЕ ПРОДУКТАМИ!");
+		}catch(IllegalArgumentException ae) {
+			System.out.println("ПРОДУКТЫ НЕ ОЧИЩЕНЫ! ПРОИЗВЕДИТЕ ЧИСТКУ!");
+		}
+		catch(NullPointerException e) {
+			System.out.println("ДОСТАНЬТЕ ПРОДУКТЫ ИЗ КОРЗИНЫ И ПРОВЕДИТЕ ЧИСТКУ!");
 		}
 	}
 	
@@ -267,11 +272,20 @@ public class Application {
 			if(plant.length == 0) {
 				System.out.println("Сначала необходимо достать продукты из корзины!!!");
 			}else {
+				for(int i = 0; i < plant.length; i++) {
+					if(plant[i].getClearCondition() == false) {
+						throw new IllegalArgumentException();
+					}
+				}
 				fp.setProductsWeight(fp.sliceItems(plant));
-				System.out.println("Вес Ваших продуктов после шинковки: " + (fp.getProductsWeight() * 1000) / 1000);
+				String formattedString = String.format("%.3f", fp.getProductsWeight());
+				System.out.println("Вес Ваших продуктов после шинковки: " + formattedString);
 			}
-		}catch(NullPointerException e) {
-			System.out.println("ВАША КОРЗИНА ПУСТА! ЗАПОЛНИТЕ ЕЕ ПРОДУКТАМИ!");
+		}catch(IllegalArgumentException ae) {
+			System.out.println("ПРОДУКТЫ НЕ ОЧИЩЕНЫ! ПРОИЗВЕДИТЕ ЧИСТКУ!");
+		}
+		catch(NullPointerException e) {
+			System.out.println("ДОСТАНЬТЕ ПРОДУКТЫ ИЗ КОРЗИНЫ И ПРОВЕДИТЕ ЧИСТКУ!");
 		}
 	}
 	
