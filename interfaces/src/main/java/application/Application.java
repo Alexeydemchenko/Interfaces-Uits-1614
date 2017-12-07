@@ -24,12 +24,11 @@ public class Application {
 			"green"
 	};
 		
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IllegalArgumentException, NullPointerException {
 		menu();
-
 	}
 		
-	public static void menu() {
+	public static void menu() throws IllegalArgumentException, NullPointerException {
 		boolean flag = true;
 		Basket basket = new Basket();
 		FoodProcessor fp = new FoodProcessor();
@@ -228,7 +227,8 @@ public class Application {
 		}
 	}
 	
-	public static void peelInFoodProcessor(FoodProcessor fp, Plant[] plant) {
+	public static void peelInFoodProcessor(FoodProcessor fp, Plant[] plant) 
+			throws NullPointerException{
 		try {
 			if(plant.length == 0) {
 				System.out.println("Сначала необходимо достать продукты из корзины!!!");
@@ -245,7 +245,8 @@ public class Application {
 		}
 	}
 	
-	public static void cutInFoodProcessor(FoodProcessor fp, Plant[] plant) {
+	public static void cutInFoodProcessor(FoodProcessor fp, Plant[] plant) 
+			throws IllegalArgumentException, NullPointerException{
 		try {
 			if(plant.length == 0) {
 				System.out.println("Сначала необходимо достать продукты из корзины!!!");
@@ -267,7 +268,8 @@ public class Application {
 		}
 	}
 	
-	public static void sliceInFoodProcessor(FoodProcessor fp, Plant[] plant) {
+	public static void sliceInFoodProcessor(FoodProcessor fp, Plant[] plant) 
+			throws IllegalArgumentException, NullPointerException{
 		try {
 			if(plant.length == 0) {
 				System.out.println("Сначала необходимо достать продукты из корзины!!!");
