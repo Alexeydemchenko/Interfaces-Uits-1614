@@ -8,6 +8,7 @@ public abstract class Plant implements Peellable {
 	private String color;
 	private int freshness;
 	private boolean clearCondition = false;
+	private int index;
 	private static int objCount;
 	
 	Plant(){
@@ -62,12 +63,18 @@ public abstract class Plant implements Peellable {
 		this.clearCondition = clearCondition;
 	}
 	
+	public int getIndex() {
+		return index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
+	}
+	
 	@Override
 	public String toString() {
 		return "Plant:\n" + "Name: " + name + "\nWeight: " + weight + "\nColor: " + color +
-				"\nFreshness: " + freshness + "\nPeeled condition: " + clearCondition + "\nIndex: "
-				+ objCount;
+				"\nFreshness: " + freshness + " days" +"\nPeeled condition: " + clearCondition + 
+				"\nIndex: " + index;
 	}
-	
-
 }

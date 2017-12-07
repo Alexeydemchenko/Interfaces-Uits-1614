@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Application {
-//	static List<Plant> list = new ArrayList<Plant>();
 	static Random rand = new Random();
 	static Scanner sc = new Scanner(System.in);
 	static boolean flag = false;
 	static int vegetablesCount;
 	static int fruitsCount;
+	static int index;
+	static double basketWeight = 0.0;
 	
 	public static String[] color = {
 			"red",
@@ -33,76 +34,119 @@ public class Application {
 		Basket basket = new Basket();
 		FoodProcessor fp = new FoodProcessor();
 		Plant[] plant = new Plant[0];
-		double basketWeight = 0.0;
 		while(flag) {
-			System.out.println("MENU:");
-			System.out.println("1 - Создать корзину");
-			System.out.println("2 - Достать все продукты");
-			System.out.println("3 - Почистить продукты");
-			System.out.println("4 - Нарезать продукты");
-			System.out.println("5 - Нашинковать продукты");
+			menuPanel();
 			int choice = sc.nextInt();
+			if(choice >= 1 && choice <= 8) {
 				switch(choice) {
-					case 1:{
-						basket = createBasket();
-						plant = new Plant[basket.list.size()];
-					}break;
-					case 2:{
-						plant = basket.extractAll(basket.list);
-					}break;
-					case 3:{
-						peelInFoodProcessor(fp, plant);
-					}break;
-					case 4:{
-						cutInFoodProcessor(fp, plant);
-					}break;
-					case 5:{
-						sliceInFoodProcessor(fp, plant);
-					}break;
+				case 1:{
+					basket = createBasket();
+					plant = new Plant[basket.list.size()];
+				}break;
+				case 2:{
+					plant = basket.extractAll(basket.list);
+					basketWeight = 0.0;
+				}break;
+				case 3:{
+					peelInFoodProcessor(fp, plant);
+				}break;
+				case 4:{
+					cutInFoodProcessor(fp, plant);
+				}break;
+				case 5:{
+					sliceInFoodProcessor(fp, plant);
+				}break;
+				case 6:{
+					System.out.println("Вес Вашей корзины составляет: " + basketWeight);
+				}break;
+				case 7:{
+					
 				}
+//				case 6:{
+//					System.out.println("Goodbye!!!");
+//					flag = false;
+//				}break;
+				default:{
+					System.out.println("Неправильное комманда меню!");
+				}
+			}
+		}else {
+			System.out.println("Введены неправильные данные!");
 		}
 	}
+}
 	
-
+	public static void menuPanel() {
+		System.out.println("MENU:");
+		System.out.println("1 - Создать корзину");
+		System.out.println("2 - Достать все продукты");
+		System.out.println("3 - Почистить продукты");
+		System.out.println("4 - Нарезать продукты");
+		System.out.println("5 - Нашинковать продукты");
+		System.out.println("6 - Вес корзины");
+		System.out.println("=================ДОПОЛНИТЕЛЬНЫЕ ОПЦИИ=================");
+	}
+	
 	public static Basket createBasket() {
 		Basket basket = new Basket();
 		int pick;
-		System.out.println("1 - Fruit");
-		System.out.println("2 - Vegetable");
+		System.out.println("1 - Фрукты");
+		System.out.println("2 - Овощи");
+		System.out.println("3 - Выйти в главное меню");
 		int choice = sc.nextInt();
+		boolean flag = true;
+		while(flag) {
+			if(choice >= 1 && choice <= 2) {
+				pickPlant(basket, choice);
+				flag = false;
+			}else if(choice == 3) {
+				System.out.println("Выход в главное меню!");
+				break;
+			}else {
+				System.out.println("Введены неправильные данные!");
+			}
+		}
+		basketFillStatus(basket);
+		return basket;
+	}
+	
+	public static void fruitsAmount(Basket basket, int pick) {
+		if(pick != 0) {
+			for(int i = 0; i < pick; i++) {
+				basket.put(createFruit());
+			}
+		}
+	}
+	
+	public static void vegetablesAmount(Basket basket, int pick) {
+		if(pick != 0) {
+			for(int i = 0; i < pick; i++) {
+				basket.put(createVegetable());
+			}
+		}
+	}
+	
+	public static void basketFillStatus(Basket basket) {
+		if(basket.list.size() != 0) {
+			System.out.println("Ваша корзина заполнена");
+		}
+	}
+	
+	public static void pickPlant(Basket basket, int choice) {
+		int pick;
 		switch(choice) {
 			case 1:{
 				System.out.println("Сколько фруктов необходимо?");
 				System.out.println("Введите 0, если сразу хотите перейти к овощам!");
-				pick = sc.nextInt();
-				if(pick != 0) {
-					for(int i = 0; i < pick; i++) {
-						basket.put(createFruit());
-					}
-				}
+				fruitsAmount(basket, pick = sc.nextInt());
 			}
 			case 2:{
 				System.out.println("Сколько овощей необходимо?");
 				System.out.println("Введите 0, если овощи не нужны!");
-				pick = sc.nextInt();
-				if(pick != 0) {
-					for(int i = 0; i < pick; i++) {
-						basket.put(createVegetable());
-					}
-				}
+				vegetablesAmount(basket, pick = sc.nextInt());
 			}break;
 		}
-		System.out.println("Ваша корзина заполнена!");
-		return basket;
 	}
-	
-//	public static void createFoodProcessor(Basket basket) {
-//		FoodProcessor fp = new FoodProcessor();
-//		for(Plant pl : basket.list) {
-//			System.out.println(pl);
-//			
-//		}	
-//	}
 	
 	public static Plant createFruit() {
 		Plant fruit;
@@ -117,7 +161,10 @@ public class Application {
 				fruit.setName("Banana");
 				fruit.setWeight(Math.round(rand.nextDouble() * 1000.0) / 1000.0);
 				fruit.setColor(color[rand.nextInt(color.length)]);
+				fruit.setIndex(index++);
 				fruit.setClearCondition(false);
+				fruit.setFreshness((int)(Math.random() * 5));
+				basketWeight = basketWeight + fruit.getWeight();
 				return fruit;
 			}
 			case 2:{
@@ -126,6 +173,7 @@ public class Application {
 				fruit.setWeight(Math.round(rand.nextDouble() * 1000.0) / 1000.0);
 				fruit.setColor(color[rand.nextInt(color.length)]);
 				fruit.setClearCondition(false);
+				basketWeight = basketWeight + fruit.getWeight();
 				return fruit;
 			}
 			case 3:{
@@ -134,7 +182,11 @@ public class Application {
 				fruit.setWeight(Math.round(rand.nextDouble() * 1000.0) / 1000.0);
 				fruit.setColor(color[rand.nextInt(color.length)]);
 				fruit.setClearCondition(false);
+				basketWeight = basketWeight + fruit.getWeight();
 				return fruit;
+			}
+			case 4:{
+				
 			}
 			default:{
 				return null;
@@ -155,6 +207,7 @@ public class Application {
 				vegetable.setWeight(Math.round(rand.nextDouble() * 1000.0) / 1000.0);
 				vegetable.setColor(color[rand.nextInt(color.length)]);
 				vegetable.setClearCondition(false);
+				basketWeight = basketWeight + vegetable.getWeight();
 				return vegetable;
 			}
 			case 2:{
@@ -163,6 +216,7 @@ public class Application {
 				vegetable.setWeight(Math.round(rand.nextDouble() * 1000.0) / 1000.0);
 				vegetable.setColor(color[rand.nextInt(color.length)]);
 				vegetable.setClearCondition(false);
+				basketWeight = basketWeight + vegetable.getWeight();
 				return vegetable;
 			}
 			case 3:{
@@ -171,6 +225,7 @@ public class Application {
 				vegetable.setWeight(Math.round(rand.nextDouble() * 1000.0) / 1000.0);
 				vegetable.setColor(color[rand.nextInt(color.length)]);
 				vegetable.setClearCondition(false);
+				basketWeight = basketWeight + vegetable.getWeight();
 				return vegetable;
 			}
 			default:{
@@ -181,10 +236,15 @@ public class Application {
 	
 	public static void peelInFoodProcessor(FoodProcessor fp, Plant[] plant) {
 		try {
-			fp.setProductsWeight(fp.peellItems(plant));
-			System.out.println("Вес Ваших продуктов после чистки: " + fp.getProductsWeight());
+			if(plant.length == 0) {
+				System.out.println("Сначала необходимо достать продукты из корзины!!!");
+			}else {
+				fp.setProductsWeight(fp.peellItems(plant));
+				String formattedString = String.format("%.3f", fp.getProductsWeight());
+				System.out.println("Вес Ваших продуктов после чистки: " + formattedString);
+			}
 		}catch(NullPointerException e) {
-			System.out.println("Сначала необходимо достать продукты из корзины!!!");
+			System.out.println("ВАША КОРЗИНА ПУСТА! ЗАПОЛНИТЕ ЕЕ ПРОДУКТАМИ!");
 		}
 	}
 	
@@ -194,10 +254,11 @@ public class Application {
 				System.out.println("Сначала необходимо достать продукты из корзины!!!");
 			}else {
 				fp.setProductsWeight(fp.cutItems(plant));
-				System.out.println("Вес Ваших продуктов после нарезки: " + fp.getProductsWeight());
+				String formattedString = String.format("%.3f", fp.getProductsWeight());
+				System.out.println("Вес Ваших продуктов после нарезки: " + formattedString);
 			}
 		}catch(NullPointerException e) {
-			System.out.println("ВАША КОРЗИНА ПУСТА!");
+			System.out.println("ВАША КОРЗИНА ПУСТА! ЗАПОЛНИТЕ ЕЕ ПРОДУКТАМИ!");
 		}
 	}
 	
@@ -207,10 +268,10 @@ public class Application {
 				System.out.println("Сначала необходимо достать продукты из корзины!!!");
 			}else {
 				fp.setProductsWeight(fp.sliceItems(plant));
-				System.out.println("Вес Ваших продуктов после нарезки: " + fp.getProductsWeight());
+				System.out.println("Вес Ваших продуктов после шинковки: " + (fp.getProductsWeight() * 1000) / 1000);
 			}
 		}catch(NullPointerException e) {
-			System.out.println("ВАША КОРЗИНА ПУСТА!");
+			System.out.println("ВАША КОРЗИНА ПУСТА! ЗАПОЛНИТЕ ЕЕ ПРОДУКТАМИ!");
 		}
 	}
 	

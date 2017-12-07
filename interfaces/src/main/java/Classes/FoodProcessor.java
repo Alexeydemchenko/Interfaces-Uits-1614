@@ -1,8 +1,6 @@
 package Classes;
 import interfaces.*;
 import Classes.Plant;
-import java.util.List;
-import java.util.ArrayList;
 
 public class FoodProcessor implements Cutter, Peeller, Slicer {
 	
@@ -22,22 +20,22 @@ public class FoodProcessor implements Cutter, Peeller, Slicer {
 	}
 	
 	public double cutItem(Plant plant) {
-        double result = plant.getWeight() - (0.1 * plant.getWeight());
+        double result = plant.getWeight() - (0.01 * plant.getWeight());
            return result;
    }
 
 	public double cutItems(Plant[] plant) {
-		productsWeight = productsWeight - (productsWeight * 0.1);
+		productsWeight = productsWeight - (productsWeight * 0.01);
 		return productsWeight;
 	}
 	
 	public double sliceItem(Plant plant) {
-        double result = plant.getWeight() - (0.1 * plant.getWeight());
+        double result = plant.getWeight() - (0.01 * plant.getWeight());
            return result;
    }
 
 	public double sliceItems(Plant[] plant) {
-		productsWeight = productsWeight - (productsWeight * 0.1);
+		productsWeight = productsWeight - (productsWeight * 0.01);
 		return productsWeight;
 	}
 	
